@@ -1,0 +1,5 @@
+- [tradeBot Investor project](project_tradebot_investor.md) — Android investor-panel client, live backend, v1 scope/decisions
+- [Android app spec location](reference_android_app_prompt.md) — source-of-truth spec file for the app
+- [No local Android build tooling](env_no_local_android_build.md) — can't run gradle/SDK builds from the original dev machine's shell tools
+- [GitHub repo for investorapp](reference_github_investorapp.md) — smnikzad91/investorapp.git, branch main, private
+- [local.properties stays tracked](feedback_local_properties_tracked.md) — user wants it committed, not gitignored, for this private repo
