@@ -7,14 +7,19 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
 import ir.devtrader.investor.navigation.TradeBotNavGraph
 import ir.devtrader.investor.ui.theme.TradeBotInvestorTheme
+import ir.devtrader.investor.ui.theme.appBackgroundBrush
 import ir.devtrader.investor.ui.update.UpdateGate
 import ir.devtrader.investor.ui.update.UpdateViewModel
 
@@ -55,9 +60,23 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
             TradeBotInvestorTheme {
-                Surface(modifier = Modifier.fillMaxSize()) {
-                    UpdateGate(viewModel = updateViewModel) {
-                        TradeBotNavGraph(appContainer = appContainer)
+                // Surface stays transparent (only for correct content-color propagation to
+                // Text/Icon — Surface's `color` param can't take a Brush) — the actual visible
+                // background is the gradient Box beneath it. AppShell/LoginScreen/RegisterScreen
+                // each make their own Scaffold transparent too, so this shows through everywhere.
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = Color.Transparent,
+                    contentColor = MaterialTheme.colorScheme.onBackground,
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(appBackgroundBrush()),
+                    ) {
+                        UpdateGate(viewModel = updateViewModel) {
+                            TradeBotNavGraph(appContainer = appContainer)
+                        }
                     }
                 }
             }

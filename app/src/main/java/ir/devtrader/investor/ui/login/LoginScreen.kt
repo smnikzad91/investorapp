@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -36,7 +37,7 @@ fun LoginScreen(authRepository: AuthRepository, onOpenRegister: () -> Unit) {
     )
     val uiState by viewModel.uiState.collectAsState()
 
-    Scaffold { padding ->
+    Scaffold(containerColor = Color.Transparent, contentColor = MaterialTheme.colorScheme.onBackground) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()

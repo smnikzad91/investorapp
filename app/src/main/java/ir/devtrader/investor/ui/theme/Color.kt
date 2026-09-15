@@ -14,3 +14,18 @@ val MutedText = Color(0xFF8B8FA3)
 /** Matches @color/ic_launcher_background exactly — the launcher icon's background, reused as the
  *  native splash theme's background and for the About screen's brand hero image. */
 val SplashBackground = Color(0xFF0F1115)
+
+// Ambient background gradient (see ui/theme/Gradients.kt) — deep navy -> teal mesh in dark mode,
+// a soft low-saturation wash in light mode so contrast against card content stays high.
+val GradientDarkStart = Color(0xFF0A0E1A)
+val GradientDarkMid = Color(0xFF0F2733)
+val GradientDarkEnd = Color(0xFF0F1115)
+val GradientLightStart = Color(0xFFF2FAF7)
+val GradientLightMid = Color(0xFFEEF4FB)
+val GradientLightEnd = Color(0xFFFFFFFF)
+
+// Sidebar/drawer gradient — a touch more saturated than the main background for depth separation.
+val SidebarGradientDarkStart = Color(0xFF17222E)
+val SidebarGradientDarkEnd = Color(0xFF0B0F14)
+val SidebarGradientLightStart = Color(0xFFE6F5EF)
+val SidebarGradientLightEnd = Color(0xFFFCFEFD)
