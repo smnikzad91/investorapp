@@ -12,8 +12,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import ir.devtrader.investor.R
 import ir.devtrader.investor.data.repository.InvestorRepository
 import ir.devtrader.investor.ui.common.Banner
 import ir.devtrader.investor.ui.common.FullScreenError
@@ -29,13 +31,13 @@ fun PositionsScreen(investorRepository: InvestorRepository, modifier: Modifier =
         uiState.isLoading -> FullScreenLoading()
         uiState.error != null -> FullScreenError(uiState.error!!, onRetry = viewModel::refresh)
         !uiState.hasApiKey -> Text(
-            "Bind your API key first to see your open positions.",
+            stringResource(R.string.positions_bind_key_prompt),
             modifier = modifier
                 .fillMaxSize()
                 .padding(24.dp),
         )
         uiState.positions.isEmpty() -> Text(
-            "No open positions",
+            stringResource(R.string.positions_empty),
             modifier = modifier
                 .fillMaxSize()
                 .padding(24.dp),

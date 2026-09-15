@@ -1,5 +1,7 @@
 package ir.devtrader.investor.util
 
+import android.content.Context
+import ir.devtrader.investor.R
 import ir.devtrader.investor.data.remote.dto.Investor
 import java.util.Locale
 
@@ -11,36 +13,42 @@ data class AccountStatus(val level: AccountStatusLevel, val title: String, val s
  * Computed banner, not a single API field — mirrors the web dashboard's own priority order
  * exactly (don't reorder): Pending Approval > Frozen > Trading Paused > Active.
  */
-fun computeAccountStatus(investor: Investor, hasApiKey: Boolean): AccountStatus = when {
+fun computeAccountStatus(context: Context, investor: Investor, hasApiKey: Boolean): AccountStatus = when {
     !investor.isActive -> AccountStatus(
         AccountStatusLevel.PENDING_APPROVAL,
-        "Pending Approval",
+        context.getString(R.string.account_status_pending_title),
         if (hasApiKey) {
-            "Your API key is bound — an admin still needs to activate mirror trading."
+            context.getString(R.string.account_status_pending_body_with_key)
         } else {
-            "Bind your API key in Settings, then an admin will review and activate your account."
+            context.getString(R.string.account_status_pending_body_no_key)
         },
     )
     investor.frozen -> AccountStatus(
         AccountStatusLevel.FROZEN,
-        "Frozen",
+        context.getString(R.string.account_status_frozen_title),
         buildString {
-            append("New mirrored trades are paused — you have an outstanding balance of $")
-            append("%.2f".format(Locale.US, investor.debt))
-            append(". Anything already open still closes normally. Contact the admin to settle it.")
-            investor.frozenReason?.let { append(" ($it)") }
+            append(
+                context.getString(
+                    R.string.account_status_frozen_body,
+                    "%.2f".format(Locale.US, investor.debt),
+                ),
+            )
+            investor.frozenReason?.let {
+                append(context.getString(R.string.account_status_frozen_reason_suffix, it))
+            }
         },
     )
     !investor.tradingEnabled -> AccountStatus(
         AccountStatusLevel.TRADING_PAUSED,
-        "Trading Paused",
-        "You've paused new mirrored trades yourself — anything already open still closes normally. " +
-            "Turn it back on anytime in Settings.",
+        context.getString(R.string.account_status_trading_paused_title),
+        context.getString(R.string.account_status_trading_paused_body),
     )
     else -> AccountStatus(
         AccountStatusLevel.ACTIVE,
-        "Active",
-        "Mirror trading is on — every position opened on the main account opens on yours too, " +
-            "sized to your own margin ratio (%.2f%%).".format(Locale.US, investor.marginRatio),
+        context.getString(R.string.account_status_active_title),
+        context.getString(
+            R.string.account_status_active_body,
+            "%.2f".format(Locale.US, investor.marginRatio),
+        ),
     )
 }

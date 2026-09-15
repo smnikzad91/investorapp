@@ -1,5 +1,6 @@
 package ir.devtrader.investor.ui.login
 
+import android.app.Application
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,16 +19,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import ir.devtrader.investor.R
 import ir.devtrader.investor.data.repository.AuthRepository
 
 @Composable
 fun LoginScreen(authRepository: AuthRepository, onOpenRegister: () -> Unit) {
+    val application = LocalContext.current.applicationContext as Application
     val viewModel: LoginViewModel = viewModel(
-        factory = LoginViewModel.factory(authRepository),
+        factory = LoginViewModel.factory(application, authRepository),
     )
     val uiState by viewModel.uiState.collectAsState()
 
@@ -40,11 +45,11 @@ fun LoginScreen(authRepository: AuthRepository, onOpenRegister: () -> Unit) {
             verticalArrangement = Arrangement.Center,
         ) {
             Text(
-                text = "tradeBot Investor",
+                text = stringResource(R.string.app_name),
                 style = MaterialTheme.typography.headlineMedium,
             )
             Text(
-                text = "Sign in to your investor account",
+                text = stringResource(R.string.login_subtitle),
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(top = 4.dp, bottom = 32.dp),
             )
@@ -52,7 +57,7 @@ fun LoginScreen(authRepository: AuthRepository, onOpenRegister: () -> Unit) {
             OutlinedTextField(
                 value = uiState.email,
                 onValueChange = viewModel::onEmailChange,
-                label = { Text("Email") },
+                label = { Text(stringResource(R.string.login_email_label)) },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                 modifier = Modifier.fillMaxWidth(),
@@ -60,7 +65,7 @@ fun LoginScreen(authRepository: AuthRepository, onOpenRegister: () -> Unit) {
             OutlinedTextField(
                 value = uiState.password,
                 onValueChange = viewModel::onPasswordChange,
-                label = { Text("Password") },
+                label = { Text(stringResource(R.string.login_password_label)) },
                 singleLine = true,
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -91,7 +96,7 @@ fun LoginScreen(authRepository: AuthRepository, onOpenRegister: () -> Unit) {
                         color = MaterialTheme.colorScheme.onPrimary,
                     )
                 } else {
-                    Text("Log in")
+                    Text(stringResource(R.string.login_button))
                 }
             }
 
@@ -101,7 +106,7 @@ fun LoginScreen(authRepository: AuthRepository, onOpenRegister: () -> Unit) {
                     .fillMaxWidth()
                     .padding(top = 8.dp),
             ) {
-                Text("Don't have an account? Register")
+                Text(stringResource(R.string.login_register_link))
             }
         }
     }

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Splash brand mark: a three-bar candlestick glyph (this app's own trading colors — green for
+    profit, red for loss, amber for warning — rather than the exact hex values from the web
+    landing page's inline SVG, which isn't available in this Android-only checkout).
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="240dp"
+    android:height="240dp"
+    android:viewportWidth="240"
+    android:viewportHeight="240">
+    <path
+        android:fillColor="#00E5A0"
+        android:pathData="M76,100 h20 v70 h-20 Z" />
+    <path
+        android:fillColor="#00E5A0"
+        android:pathData="M84,80 h4 v20 h-4 Z" />
+
+    <path
+        android:fillColor="#F5A623"
+        android:pathData="M110,70 h20 v100 h-20 Z" />
+    <path
+        android:fillColor="#F5A623"
+        android:pathData="M118,50 h4 v20 h-4 Z" />
+    <path
+        android:fillColor="#F5A623"
+        android:pathData="M118,170 h4 v20 h-4 Z" />
+
+    <path
+        android:fillColor="#E53935"
+        android:pathData="M144,110 h20 v50 h-20 Z" />
+    <path
+        android:fillColor="#E53935"
+        android:pathData="M152,90 h4 v20 h-4 Z" />
+</vector>

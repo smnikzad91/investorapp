@@ -9,11 +9,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import ir.devtrader.investor.AppContainer
+import ir.devtrader.investor.R
 import ir.devtrader.investor.ui.alarms.AlarmsScreen
 import ir.devtrader.investor.ui.dashboard.DashboardScreen
 import ir.devtrader.investor.ui.debtledger.DebtLedgerScreen
@@ -52,15 +54,17 @@ fun TradeBotNavGraph(appContainer: AppContainer) {
 
     // App/session-level handling of the two socket events, independent of whatever screen is
     // currently open — a toast for a triggered alarm must still show even off the Alarms screen.
+    val notificationToastFormat = stringResource(R.string.notifications_toast_format)
+    val alarmToastFormat = stringResource(R.string.alarm_triggered_toast_format)
     LaunchedEffect(Unit) {
         launch {
             appContainer.realtimeGateway.notifications.collect { event ->
-                snackbarHostState.showSnackbar("${event.title}: ${event.message}")
+                snackbarHostState.showSnackbar(notificationToastFormat.format(event.title, event.message))
             }
         }
         launch {
             appContainer.realtimeGateway.alarmTriggered.collect { event ->
-                snackbarHostState.showSnackbar("${event.symbol} is ${event.condition} $${event.price}")
+                snackbarHostState.showSnackbar(alarmToastFormat.format(event.symbol, event.condition, event.price))
             }
         }
     }
@@ -97,7 +101,7 @@ fun TradeBotNavGraph(appContainer: AppContainer) {
             )
         }
         composable(Destinations.DASHBOARD) {
-            shell("Dashboard", Destinations.DASHBOARD) { padding ->
+            shell(stringResource(R.string.nav_dashboard), Destinations.DASHBOARD) { padding ->
                 DashboardScreen(
                     investorRepository = appContainer.investorRepository,
                     onOpenSettings = {
@@ -112,22 +116,22 @@ fun TradeBotNavGraph(appContainer: AppContainer) {
             }
         }
         composable(Destinations.POSITIONS) {
-            shell("Positions", Destinations.POSITIONS) { padding ->
+            shell(stringResource(R.string.nav_positions), Destinations.POSITIONS) { padding ->
                 PositionsScreen(appContainer.investorRepository, Modifier.padding(padding))
             }
         }
         composable(Destinations.TRADES) {
-            shell("Trades", Destinations.TRADES) { padding ->
+            shell(stringResource(R.string.nav_trades), Destinations.TRADES) { padding ->
                 TradesScreen(appContainer.investorRepository, Modifier.padding(padding))
             }
         }
         composable(Destinations.DEBT_LEDGER) {
-            shell("Debt Ledger", Destinations.DEBT_LEDGER) { padding ->
+            shell(stringResource(R.string.nav_debt_ledger), Destinations.DEBT_LEDGER) { padding ->
                 DebtLedgerScreen(appContainer.investorRepository, Modifier.padding(padding))
             }
         }
         composable(Destinations.ALARMS) {
-            shell("Price Alarms", Destinations.ALARMS) { padding ->
+            shell(stringResource(R.string.nav_alarms_title), Destinations.ALARMS) { padding ->
                 AlarmsScreen(
                     investorRepository = appContainer.investorRepository,
                     realtimeGateway = appContainer.realtimeGateway,
@@ -137,17 +141,17 @@ fun TradeBotNavGraph(appContainer: AppContainer) {
             }
         }
         composable(Destinations.PROFILE) {
-            shell("Profile", Destinations.PROFILE) { padding ->
+            shell(stringResource(R.string.nav_profile), Destinations.PROFILE) { padding ->
                 ProfileScreen(appContainer.investorRepository, Modifier.padding(padding))
             }
         }
         composable(Destinations.SETTINGS) {
-            shell("Settings", Destinations.SETTINGS) { padding ->
+            shell(stringResource(R.string.nav_settings), Destinations.SETTINGS) { padding ->
                 SettingsScreen(appContainer.investorRepository, Modifier.padding(padding))
             }
         }
         composable(Destinations.NOTIFICATIONS) {
-            shell("Notifications", Destinations.NOTIFICATIONS, showBack = true) { padding ->
+            shell(stringResource(R.string.nav_notifications_title), Destinations.NOTIFICATIONS, showBack = true) { padding ->
                 NotificationsScreen(appContainer.notificationsCenter, Modifier.padding(padding))
             }
         }

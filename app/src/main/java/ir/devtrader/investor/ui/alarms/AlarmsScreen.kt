@@ -1,5 +1,6 @@
 package ir.devtrader.investor.ui.alarms
 
+import android.app.Application
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -33,10 +34,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import ir.devtrader.investor.R
 import ir.devtrader.investor.data.remote.RealtimeGateway
 import ir.devtrader.investor.data.remote.dto.Alarm
 import ir.devtrader.investor.data.repository.InvestorRepository
@@ -46,6 +50,9 @@ import ir.devtrader.investor.ui.common.FullScreenLoading
 import ir.devtrader.investor.ui.common.SectionCard
 import ir.devtrader.investor.ui.theme.LossRed
 
+// Kept in English — these are the literal values sent to/compared against the backend API
+// (createAlarm's condition field, alarm.condition equality checks below), not display text
+// that should follow the app's language setting.
 private val CONDITIONS = listOf("above", "below")
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -56,8 +63,9 @@ fun AlarmsScreen(
     symbolsCache: SymbolsCache,
     modifier: Modifier = Modifier,
 ) {
+    val application = LocalContext.current.applicationContext as Application
     val viewModel: AlarmsViewModel = viewModel(
-        factory = AlarmsViewModel.factory(investorRepository, realtimeGateway, symbolsCache),
+        factory = AlarmsViewModel.factory(application, investorRepository, realtimeGateway, symbolsCache),
     )
     val uiState by viewModel.uiState.collectAsState()
 
@@ -76,7 +84,7 @@ fun AlarmsScreen(
             if (uiState.alarms.isEmpty()) {
                 item {
                     Text(
-                        "No price alarms yet",
+                        stringResource(R.string.alarms_empty),
                         style = MaterialTheme.typography.bodyMedium,
                         modifier = Modifier.padding(top = 8.dp),
                     )
@@ -98,7 +106,7 @@ private fun AddAlarmForm(uiState: AlarmsUiState, viewModel: AlarmsViewModel) {
     var conditionExpanded by remember { mutableStateOf(false) }
 
     SectionCard {
-        Text("New alarm", style = MaterialTheme.typography.titleMedium)
+        Text(stringResource(R.string.alarms_new_alarm_title), style = MaterialTheme.typography.titleMedium)
 
         // Filtered/searchable: typing narrows filteredSymbols, but the field stays free-text so
         // an unlisted symbol can still be submitted, matching the API's own leniency.
@@ -113,7 +121,7 @@ private fun AddAlarmForm(uiState: AlarmsUiState, viewModel: AlarmsViewModel) {
                     viewModel.onSymbolChange(it)
                     symbolExpanded = true
                 },
-                label = { Text("Symbol (e.g. BTC)") },
+                label = { Text(stringResource(R.string.alarms_symbol_label)) },
                 singleLine = true,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -143,7 +151,7 @@ private fun AddAlarmForm(uiState: AlarmsUiState, viewModel: AlarmsViewModel) {
                 value = uiState.condition,
                 onValueChange = {},
                 readOnly = true,
-                label = { Text("Condition") },
+                label = { Text(stringResource(R.string.alarms_condition_label)) },
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = conditionExpanded) },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -167,7 +175,7 @@ private fun AddAlarmForm(uiState: AlarmsUiState, viewModel: AlarmsViewModel) {
         OutlinedTextField(
             value = uiState.price,
             onValueChange = viewModel::onPriceChange,
-            label = { Text("Price") },
+            label = { Text(stringResource(R.string.alarms_price_label)) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             modifier = Modifier
@@ -181,19 +189,19 @@ private fun AddAlarmForm(uiState: AlarmsUiState, viewModel: AlarmsViewModel) {
                 .fillMaxWidth()
                 .padding(top = 12.dp),
         ) {
-            Text("Text me (SMS)", style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f))
+            Text(stringResource(R.string.alarms_sms_label), style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f))
             Switch(checked = uiState.sms, onCheckedChange = viewModel::onSmsChange)
         }
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth(),
         ) {
-            Text("Call me", style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f))
+            Text(stringResource(R.string.alarms_call_label), style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f))
             Switch(checked = uiState.call, onCheckedChange = viewModel::onCallChange)
         }
         if (uiState.sms || uiState.call) {
             Text(
-                "Uses the phone number on your profile",
+                stringResource(R.string.alarms_contact_hint),
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(top = 4.dp),
             )
@@ -221,7 +229,7 @@ private fun AddAlarmForm(uiState: AlarmsUiState, viewModel: AlarmsViewModel) {
                     color = MaterialTheme.colorScheme.onPrimary,
                 )
             } else {
-                Text("Add alarm")
+                Text(stringResource(R.string.alarms_add_button))
             }
         }
     }
@@ -244,14 +252,14 @@ private fun AlarmRow(alarm: Alarm, onDelete: () -> Unit) {
             )
             if (alarm.shouldMessage || alarm.shouldCall) {
                 val alerts = listOfNotNull(
-                    "SMS".takeIf { alarm.shouldMessage },
-                    "Call".takeIf { alarm.shouldCall },
+                    stringResource(R.string.alarms_alert_sms).takeIf { alarm.shouldMessage },
+                    stringResource(R.string.alarms_alert_call).takeIf { alarm.shouldCall },
                 ).joinToString(" + ")
                 Text(alerts, style = MaterialTheme.typography.bodyMedium)
             }
         }
         IconButton(onClick = onDelete) {
-            Icon(Icons.Filled.Delete, contentDescription = "Delete alarm")
+            Icon(Icons.Filled.Delete, contentDescription = stringResource(R.string.alarms_delete_cd))
         }
     }
 }

@@ -15,9 +15,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import ir.devtrader.investor.R
 import ir.devtrader.investor.data.remote.dto.DebtLedgerEntry
 import ir.devtrader.investor.data.repository.InvestorRepository
 import ir.devtrader.investor.ui.common.FullScreenError
@@ -42,7 +44,7 @@ fun DebtLedgerScreen(investorRepository: InvestorRepository, modifier: Modifier 
             ) {
                 item {
                     Column(modifier = Modifier.padding(bottom = 16.dp)) {
-                        Text("Current balance", style = MaterialTheme.typography.bodyMedium)
+                        Text(stringResource(R.string.debt_ledger_current_balance), style = MaterialTheme.typography.bodyMedium)
                         Text(
                             "%.2f".format(Locale.US, ledger.debt),
                             style = MaterialTheme.typography.headlineMedium,
@@ -94,7 +96,7 @@ private fun DebtLedgerRow(entry: DebtLedgerEntry) {
                 style = MaterialTheme.typography.titleMedium,
             )
             Text(
-                "balance %.2f".format(Locale.US, entry.balanceAfter),
+                stringResource(R.string.debt_ledger_balance_after, "%.2f".format(Locale.US, entry.balanceAfter)),
                 style = MaterialTheme.typography.bodyMedium,
             )
         }

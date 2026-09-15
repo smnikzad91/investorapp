@@ -1,10 +1,12 @@
 package ir.devtrader.investor.ui.register
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import ir.devtrader.investor.R
 import ir.devtrader.investor.data.repository.AuthRepository
 import ir.devtrader.investor.util.ApiResult
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,7 +26,7 @@ data class RegisterUiState(
     val error: String? = null,
 )
 
-class RegisterViewModel(private val authRepository: AuthRepository) : ViewModel() {
+class RegisterViewModel(application: Application, private val authRepository: AuthRepository) : AndroidViewModel(application) {
 
     private val _uiState = MutableStateFlow(RegisterUiState())
     val uiState: StateFlow<RegisterUiState> = _uiState.asStateFlow()
@@ -58,23 +60,24 @@ class RegisterViewModel(private val authRepository: AuthRepository) : ViewModel(
     }
 
     fun register() {
+        val context = getApplication<Application>()
         val state = _uiState.value
         if (state.email.isBlank() || state.password.isBlank() || state.first.isBlank() ||
             state.last.isBlank() || state.phone.isBlank()
         ) {
-            _uiState.value = state.copy(error = "Fill in all fields")
+            _uiState.value = state.copy(error = context.getString(R.string.register_error_missing_fields))
             return
         }
         if (state.password.length < 6) {
-            _uiState.value = state.copy(error = "Password must be at least 6 characters")
+            _uiState.value = state.copy(error = context.getString(R.string.register_error_password_length))
             return
         }
         if (state.password != state.confirmPassword) {
-            _uiState.value = state.copy(error = "Passwords don't match")
+            _uiState.value = state.copy(error = context.getString(R.string.register_error_password_mismatch))
             return
         }
         if (!state.acceptedTerms) {
-            _uiState.value = state.copy(error = "You must accept the risk disclosure / terms to register")
+            _uiState.value = state.copy(error = context.getString(R.string.register_error_terms_required))
             return
         }
         _uiState.value = state.copy(isLoading = true, error = null)
@@ -95,8 +98,8 @@ class RegisterViewModel(private val authRepository: AuthRepository) : ViewModel(
     }
 
     companion object {
-        fun factory(authRepository: AuthRepository): ViewModelProvider.Factory = viewModelFactory {
-            initializer { RegisterViewModel(authRepository) }
+        fun factory(application: Application, authRepository: AuthRepository): ViewModelProvider.Factory = viewModelFactory {
+            initializer { RegisterViewModel(application, authRepository) }
         }
     }
 }

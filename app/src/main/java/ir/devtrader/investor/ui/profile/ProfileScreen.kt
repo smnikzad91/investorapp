@@ -1,5 +1,6 @@
 package ir.devtrader.investor.ui.profile
 
+import android.app.Application
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,8 +16,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import ir.devtrader.investor.R
 import ir.devtrader.investor.data.repository.InvestorRepository
 import ir.devtrader.investor.ui.common.Banner
 import ir.devtrader.investor.ui.common.FullScreenError
@@ -24,7 +28,8 @@ import ir.devtrader.investor.ui.common.FullScreenLoading
 
 @Composable
 fun ProfileScreen(investorRepository: InvestorRepository, modifier: Modifier = Modifier) {
-    val viewModel: ProfileViewModel = viewModel(factory = ProfileViewModel.factory(investorRepository))
+    val application = LocalContext.current.applicationContext as Application
+    val viewModel: ProfileViewModel = viewModel(factory = ProfileViewModel.factory(application, investorRepository))
     val uiState by viewModel.uiState.collectAsState()
 
     when {
@@ -40,7 +45,7 @@ fun ProfileScreen(investorRepository: InvestorRepository, modifier: Modifier = M
                 value = uiState.email,
                 onValueChange = {},
                 readOnly = true,
-                label = { Text("Email") },
+                label = { Text(stringResource(R.string.profile_email_label)) },
                 singleLine = true,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -49,7 +54,7 @@ fun ProfileScreen(investorRepository: InvestorRepository, modifier: Modifier = M
             OutlinedTextField(
                 value = uiState.first,
                 onValueChange = viewModel::onFirstChange,
-                label = { Text("First name") },
+                label = { Text(stringResource(R.string.profile_first_name_label)) },
                 singleLine = true,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -58,7 +63,7 @@ fun ProfileScreen(investorRepository: InvestorRepository, modifier: Modifier = M
             OutlinedTextField(
                 value = uiState.last,
                 onValueChange = viewModel::onLastChange,
-                label = { Text("Last name") },
+                label = { Text(stringResource(R.string.profile_last_name_label)) },
                 singleLine = true,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -67,12 +72,12 @@ fun ProfileScreen(investorRepository: InvestorRepository, modifier: Modifier = M
             OutlinedTextField(
                 value = uiState.phone,
                 onValueChange = viewModel::onPhoneChange,
-                label = { Text("Phone") },
+                label = { Text(stringResource(R.string.profile_phone_label)) },
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth(),
             )
             Text(
-                "This is the number SMS/call price alarms use.",
+                stringResource(R.string.profile_phone_hint),
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(top = 4.dp, bottom = 16.dp),
             )
@@ -94,7 +99,7 @@ fun ProfileScreen(investorRepository: InvestorRepository, modifier: Modifier = M
                         color = MaterialTheme.colorScheme.onPrimary,
                     )
                 } else {
-                    Text("Save")
+                    Text(stringResource(R.string.profile_save_button))
                 }
             }
         }

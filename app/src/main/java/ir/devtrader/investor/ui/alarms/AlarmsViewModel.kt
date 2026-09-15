@@ -1,10 +1,12 @@
 package ir.devtrader.investor.ui.alarms
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import ir.devtrader.investor.R
 import ir.devtrader.investor.data.remote.RealtimeGateway
 import ir.devtrader.investor.data.remote.dto.Alarm
 import ir.devtrader.investor.data.repository.InvestorRepository
@@ -33,10 +35,11 @@ data class AlarmsUiState(
 }
 
 class AlarmsViewModel(
+    application: Application,
     private val investorRepository: InvestorRepository,
     private val realtimeGateway: RealtimeGateway,
     symbolsCache: SymbolsCache,
-) : ViewModel() {
+) : AndroidViewModel(application) {
 
     private val _uiState = MutableStateFlow(AlarmsUiState())
     val uiState: StateFlow<AlarmsUiState> = _uiState.asStateFlow()
@@ -100,11 +103,11 @@ class AlarmsViewModel(
         val state = _uiState.value
         val price = state.price.toDoubleOrNull()
         if (state.symbol.isBlank()) {
-            _uiState.value = state.copy(formError = "Symbol is required")
+            _uiState.value = state.copy(formError = getApplication<Application>().getString(R.string.alarms_error_symbol_required))
             return
         }
         if (price == null || price <= 0) {
-            _uiState.value = state.copy(formError = "Price must be a positive number")
+            _uiState.value = state.copy(formError = getApplication<Application>().getString(R.string.alarms_error_price_positive))
             return
         }
         _uiState.value = state.copy(isSubmitting = true, formError = null)
@@ -146,11 +149,12 @@ class AlarmsViewModel(
 
     companion object {
         fun factory(
+            application: Application,
             investorRepository: InvestorRepository,
             realtimeGateway: RealtimeGateway,
             symbolsCache: SymbolsCache,
         ): ViewModelProvider.Factory = viewModelFactory {
-            initializer { AlarmsViewModel(investorRepository, realtimeGateway, symbolsCache) }
+            initializer { AlarmsViewModel(application, investorRepository, realtimeGateway, symbolsCache) }
         }
     }
 }

@@ -17,8 +17,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import ir.devtrader.investor.R
 import ir.devtrader.investor.ui.theme.LossRed
 import ir.devtrader.investor.util.firstNumberField
 import ir.devtrader.investor.util.rawString
@@ -39,7 +41,7 @@ fun FullScreenError(message: String, onRetry: () -> Unit) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(text = message, style = MaterialTheme.typography.bodyLarge)
             Button(onClick = onRetry, modifier = Modifier.padding(top = 16.dp)) {
-                Text("Retry")
+                Text(stringResource(R.string.common_retry))
             }
         }
     }
@@ -72,7 +74,7 @@ fun GenericRecordCard(record: JsonObject) {
     SectionCard {
         Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
             Column {
-                Text(symbol ?: "Unknown symbol", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+                Text(symbol ?: stringResource(R.string.common_unknown_symbol), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
                 side?.let { Text(it, style = MaterialTheme.typography.bodyMedium) }
             }
             pnl?.let {

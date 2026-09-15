@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.TradeBotInvestor" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <!-- androidx.core:core-splashscreen theme. windowSplashScreenBackground reuses the same
+         dark tone as the adaptive launcher icon's background so the splash reads as the same
+         brand mark as the app icon. -->
+    <style name="Theme.TradeBotInvestor.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/ic_launcher_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_logo</item>
+        <item name="postSplashScreenTheme">@style/Theme.TradeBotInvestor</item>
+    </style>
 </resources>

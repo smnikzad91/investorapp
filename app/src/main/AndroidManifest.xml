@@ -14,18 +14,34 @@
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
+        android:supportsRtl="true"
         android:theme="@style/Theme.TradeBotInvestor"
         android:networkSecurityConfig="@xml/network_security_config">
 
+        <!-- Theme.TradeBotInvestor.Splash (not the base theme) so the system splash screen is
+             what's shown at cold start; installSplashScreen() in MainActivity hands off to
+             Theme.TradeBotInvestor itself once the update check resolves. -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.TradeBotInvestor">
+            android:theme="@style/Theme.TradeBotInvestor.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Hands the downloaded update APK to the system package installer via a content://
+             URI — a raw file:// URI throws FileUriExposedException on API 24+. -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

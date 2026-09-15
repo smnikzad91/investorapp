@@ -1,4 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">tradeBot Investor</string>
+
+    <!-- Common -->
+    <string name="common_retry">Retry</string>
+    <string name="common_unknown_symbol">Unknown symbol</string>
+
+    <!-- App shell / nav drawer -->
+    <string name="nav_dashboard">Dashboard</string>
+    <string name="nav_positions">Positions</string>
+    <string name="nav_trades">Trades</string>
+    <string name="nav_debt_ledger">Debt Ledger</string>
+    <string name="nav_alarms">Alarms</string>
+    <string name="nav_alarms_title">Price Alarms</string>
+    <string name="nav_profile">Profile</string>
+    <string name="nav_settings">Settings</string>
+    <string name="nav_notifications_title">Notifications</string>
+    <string name="shell_notifications_cd">Notifications</string>
+    <string name="shell_logout_cd">Log out</string>
+    <string name="shell_back_cd">Back</string>
+    <string name="shell_menu_cd">Open menu</string>
+
+    <!-- Login -->
+    <string name="login_subtitle">Sign in to your investor account</string>
+    <string name="login_email_label">Email</string>
+    <string name="login_password_label">Password</string>
+    <string name="login_button">Log in</string>
+    <string name="login_register_link">Don\'t have an account? Register</string>
+    <string name="login_error_missing_fields">Enter both email and password</string>
+
+    <!-- Register -->
+    <string name="register_title">Create account</string>
+    <string name="register_back_cd">Back</string>
+    <string name="register_intro">Registering creates your investor account. Mirror trading itself still needs an admin to activate it after you bind an exchange API key.</string>
+    <string name="register_first_name_label">First name</string>
+    <string name="register_last_name_label">Last name</string>
+    <string name="register_phone_label">Phone</string>
+    <string name="register_email_label">Email</string>
+    <string name="register_password_label">Password (min 6 chars)</string>
+    <string name="register_confirm_password_label">Confirm password</string>
+    <string name="register_terms_checkbox">I accept the risk disclosure and terms of use</string>
+    <string name="register_terms_link">Read the risk disclosure / terms</string>
+    <string name="register_button">Create account</string>
+    <string name="register_error_missing_fields">Fill in all fields</string>
+    <string name="register_error_password_length">Password must be at least 6 characters</string>
+    <string name="register_error_password_mismatch">Passwords don\'t match</string>
+    <string name="register_error_terms_required">You must accept the risk disclosure / terms to register</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_welcome">Welcome back, %1$s</string>
+    <string name="dashboard_bind_key_title">Bind your exchange API key</string>
+    <string name="dashboard_bind_key_body">Connect your Bitunix API key to see your wallet and trading activity here.</string>
+    <string name="dashboard_bind_key_button">Bind API key</string>
+    <string name="dashboard_wallet_title">Wallet</string>
+    <string name="dashboard_wallet_available">Available</string>
+    <string name="dashboard_wallet_margin_in_use">Margin in use</string>
+    <string name="dashboard_wallet_cross_unrealized">Cross unrealized PNL</string>
+    <string name="dashboard_wallet_isolated_unrealized">Isolated unrealized PNL</string>
+    <string name="dashboard_performance_title">Positions &amp; performance</string>
+    <string name="dashboard_open_positions">Open positions</string>
+    <string name="dashboard_total_trades">Total trades</string>
+    <string name="dashboard_sample_size">Sample size</string>
+    <string name="dashboard_win_rate">Win rate</string>
+    <string name="dashboard_total_realized_pnl">Total realized PNL</string>
+
+    <!-- Account status banner (Dashboard) -->
+    <string name="account_status_pending_title">Pending Approval</string>
+    <string name="account_status_pending_body_with_key">Your API key is bound — an admin still needs to activate mirror trading.</string>
+    <string name="account_status_pending_body_no_key">Bind your API key in Settings, then an admin will review and activate your account.</string>
+    <string name="account_status_frozen_title">Frozen</string>
+    <string name="account_status_frozen_body">New mirrored trades are paused — you have an outstanding balance of $%1$s. Anything already open still closes normally. Contact the admin to settle it.</string>
+    <string name="account_status_frozen_reason_suffix"> (%1$s)</string>
+    <string name="account_status_trading_paused_title">Trading Paused</string>
+    <string name="account_status_trading_paused_body">You\'ve paused new mirrored trades yourself — anything already open still closes normally. Turn it back on anytime in Settings.</string>
+    <string name="account_status_active_title">Active</string>
+    <string name="account_status_active_body">Mirror trading is on — every position opened on the main account opens on yours too, sized to your own margin ratio (%1$s%%).</string>
+
+    <!-- Positions / Trades -->
+    <string name="positions_bind_key_prompt">Bind your API key first to see your open positions.</string>
+    <string name="positions_empty">No open positions</string>
+    <string name="trades_bind_key_prompt">Bind your API key first to see your trade history.</string>
+    <string name="trades_empty">No closed trades yet</string>
+
+    <!-- Debt ledger -->
+    <string name="debt_ledger_current_balance">Current balance</string>
+    <string name="debt_ledger_balance_after">balance %1$s</string>
+
+    <!-- Alarms -->
+    <string name="alarms_new_alarm_title">New alarm</string>
+    <string name="alarms_symbol_label">Symbol (e.g. BTC)</string>
+    <string name="alarms_condition_label">Condition</string>
+    <string name="alarms_price_label">Price</string>
+    <string name="alarms_sms_label">Text me (SMS)</string>
+    <string name="alarms_call_label">Call me</string>
+    <string name="alarms_contact_hint">Uses the phone number on your profile</string>
+    <string name="alarms_add_button">Add alarm</string>
+    <string name="alarms_empty">No price alarms yet</string>
+    <string name="alarms_delete_cd">Delete alarm</string>
+    <string name="alarms_error_symbol_required">Symbol is required</string>
+    <string name="alarms_error_price_positive">Price must be a positive number</string>
+    <string name="alarms_alert_sms">SMS</string>
+    <string name="alarms_alert_call">Call</string>
+
+    <!-- Profile -->
+    <string name="profile_email_label">Email</string>
+    <string name="profile_first_name_label">First name</string>
+    <string name="profile_last_name_label">Last name</string>
+    <string name="profile_phone_label">Phone</string>
+    <string name="profile_phone_hint">This is the number SMS/call price alarms use.</string>
+    <string name="profile_save_button">Save</string>
+    <string name="profile_error_missing_fields">Fill in all fields</string>
+    <string name="profile_saved">Profile saved</string>
+
+    <!-- Settings -->
+    <string name="settings_profit_share_title">Profit Share</string>
+    <string name="settings_profit_share_not_configured">Not configured yet — an admin sets this before your account can be activated.</string>
+    <string name="settings_trading_control_title">Mirror Trading</string>
+    <string name="settings_trading_active">Active — every position opened on the main account opens on yours too.</string>
+    <string name="settings_trading_paused">Trading Paused — anything already open still closes normally.</string>
+    <string name="settings_margin_ratio_title">Margin Ratio</string>
+    <string name="settings_margin_ratio_body">How much of your available balance a mirrored trade risks: available balance × margin ratio, before the main account\'s own leverage is applied on top.</string>
+    <string name="settings_margin_ratio_label">Margin ratio (%)</string>
+    <string name="settings_margin_ratio_invalid">Margin ratio must be a number between 0 and 100.</string>
+    <string name="settings_margin_ratio_saved">Margin ratio saved</string>
+    <string name="settings_save_button">Save</string>
+    <string name="settings_bind_key_title">Bind API Key</string>
+    <string name="settings_bind_key_body">Paste your Bitunix API key and secret. This links your exchange account so trades placed by the platform are mirrored on your own account.</string>
+    <string name="settings_api_key_label">API key</string>
+    <string name="settings_api_secret_label">API secret</string>
+    <string name="settings_save_api_key_button">Save API key</string>
+    <string name="settings_bind_key_missing_fields">Enter both the API key and secret</string>
+    <string name="settings_bind_key_saved_format">API key saved. Available: %1$s, equity: %2$s</string>
+    <string name="settings_bind_key_confirm_title">Confirm binding</string>
+    <string name="settings_bind_key_confirm_body">This will connect your Bitunix account for live trading through this platform. Only continue if you trust this key was generated for this purpose.</string>
+    <string name="settings_bind_key_confirm_button">Confirm</string>
+    <string name="settings_bind_key_cancel_button">Cancel</string>
+    <string name="settings_language_title">Language</string>
+    <string name="settings_language_picker_title">Choose language</string>
+    <string name="settings_language_english">English</string>
+    <string name="settings_language_persian">فارسی</string>
+
+    <!-- Notifications -->
+    <string name="notifications_empty">No notifications yet</string>
+    <string name="notifications_toast_format">%1$s: %2$s</string>
+    <string name="alarm_triggered_toast_format">%1$s is %2$s $%3$s</string>
+
+    <!-- In-app update dialogs -->
+    <string name="update_required_title">Update Required</string>
+    <string name="update_available_title">Update Available</string>
+    <string name="update_required_message_format">Version %1$s is required to continue using tradeBot.</string>
+    <string name="update_available_message_format">Version %1$s is available.</string>
+    <string name="update_whats_new_format">\n\nWhat\'s new:\n%1$s</string>
+    <string name="update_button_now">Update Now</string>
+    <string name="update_button_downloading">Downloading…</string>
+    <string name="update_button_retry">Retry</string>
+    <string name="update_button_skip_later">Skip / Later</string>
+
+    <!-- Notifications-poll worker -->
+    <string name="notification_channel_account">Account notifications</string>
+    <plurals name="unread_notifications">
+        <item quantity="one">You have %d unread notification</item>
+        <item quantity="other">You have %d unread notifications</item>
+    </plurals>
 </resources>

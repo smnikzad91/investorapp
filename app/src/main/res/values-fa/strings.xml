@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">tradeBot Investor</string>
+
+    <!-- Common -->
+    <string name="common_retry">تلاش مجدد</string>
+    <string name="common_unknown_symbol">نماد نامشخص</string>
+
+    <!-- App shell / nav drawer -->
+    <string name="nav_dashboard">داشبورد</string>
+    <string name="nav_positions">پوزیشن‌ها</string>
+    <string name="nav_trades">معاملات</string>
+    <string name="nav_debt_ledger">دفتر بدهی</string>
+    <string name="nav_alarms">هشدارها</string>
+    <string name="nav_alarms_title">هشدارهای قیمت</string>
+    <string name="nav_profile">پروفایل</string>
+    <string name="nav_settings">تنظیمات</string>
+    <string name="nav_notifications_title">اعلان‌ها</string>
+    <string name="shell_notifications_cd">اعلان‌ها</string>
+    <string name="shell_logout_cd">خروج</string>
+    <string name="shell_back_cd">بازگشت</string>
+    <string name="shell_menu_cd">باز کردن منو</string>
+
+    <!-- Login -->
+    <string name="login_subtitle">برای ورود به حساب سرمایه‌گذاری خود وارد شوید</string>
+    <string name="login_email_label">ایمیل</string>
+    <string name="login_password_label">رمز عبور</string>
+    <string name="login_button">ورود</string>
+    <string name="login_register_link">حساب کاربری ندارید؟ ثبت‌نام کنید</string>
+    <string name="login_error_missing_fields">ایمیل و رمز عبور را وارد کنید</string>
+
+    <!-- Register -->
+    <string name="register_title">ایجاد حساب کاربری</string>
+    <string name="register_back_cd">بازگشت</string>
+    <string name="register_intro">ثبت‌نام، حساب سرمایه‌گذاری شما را ایجاد می‌کند. معامله آینه‌ای پس از اتصال کلید API صرافی همچنان نیاز به فعال‌سازی توسط مدیر دارد.</string>
+    <string name="register_first_name_label">نام</string>
+    <string name="register_last_name_label">نام خانوادگی</string>
+    <string name="register_phone_label">شماره تلفن</string>
+    <string name="register_email_label">ایمیل</string>
+    <string name="register_password_label">رمز عبور (حداقل ۶ کاراکتر)</string>
+    <string name="register_confirm_password_label">تکرار رمز عبور</string>
+    <string name="register_terms_checkbox">افشای ریسک و شرایط استفاده را می‌پذیرم</string>
+    <string name="register_terms_link">مطالعه افشای ریسک / شرایط استفاده</string>
+    <string name="register_button">ایجاد حساب کاربری</string>
+    <string name="register_error_missing_fields">همه فیلدها را پر کنید</string>
+    <string name="register_error_password_length">رمز عبور باید حداقل ۶ کاراکتر باشد</string>
+    <string name="register_error_password_mismatch">رمزهای عبور مطابقت ندارند</string>
+    <string name="register_error_terms_required">برای ثبت‌نام باید افشای ریسک / شرایط استفاده را بپذیرید</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_welcome">خوش آمدید، %1$s</string>
+    <string name="dashboard_bind_key_title">کلید API صرافی خود را متصل کنید</string>
+    <string name="dashboard_bind_key_body">کلید API بیتیونیکس خود را متصل کنید تا کیف پول و فعالیت معاملاتی خود را اینجا ببینید.</string>
+    <string name="dashboard_bind_key_button">اتصال کلید API</string>
+    <string name="dashboard_wallet_title">کیف پول</string>
+    <string name="dashboard_wallet_available">موجود</string>
+    <string name="dashboard_wallet_margin_in_use">مارجین استفاده‌شده</string>
+    <string name="dashboard_wallet_cross_unrealized">سود/زیان محقق‌نشده کراس</string>
+    <string name="dashboard_wallet_isolated_unrealized">سود/زیان محقق‌نشده ایزوله</string>
+    <string name="dashboard_performance_title">پوزیشن‌ها و عملکرد</string>
+    <string name="dashboard_open_positions">پوزیشن‌های باز</string>
+    <string name="dashboard_total_trades">کل معاملات</string>
+    <string name="dashboard_sample_size">حجم نمونه</string>
+    <string name="dashboard_win_rate">نرخ برد</string>
+    <string name="dashboard_total_realized_pnl">کل سود/زیان محقق‌شده</string>
+
+    <!-- Account status banner (Dashboard) -->
+    <string name="account_status_pending_title">در انتظار تأیید</string>
+    <string name="account_status_pending_body_with_key">کلید API شما متصل شده است — مدیر همچنان باید معامله آینه‌ای را فعال کند.</string>
+    <string name="account_status_pending_body_no_key">کلید API خود را در تنظیمات متصل کنید، سپس مدیر حساب شما را بررسی و فعال می‌کند.</string>
+    <string name="account_status_frozen_title">مسدود شده</string>
+    <string name="account_status_frozen_body">معاملات آینه‌ای جدید متوقف شده‌اند — شما $%1$s بدهی معوق دارید. هر پوزیشن باز موجود همچنان به‌طور عادی بسته می‌شود. برای تسویه با مدیر تماس بگیرید.</string>
+    <string name="account_status_frozen_reason_suffix"> (%1$s)</string>
+    <string name="account_status_trading_paused_title">معاملات متوقف شده</string>
+    <string name="account_status_trading_paused_body">شما خودتان معاملات آینه‌ای جدید را متوقف کرده‌اید — هر پوزیشن باز موجود همچنان به‌طور عادی بسته می‌شود. هر زمان می‌توانید آن را از تنظیمات دوباره فعال کنید.</string>
+    <string name="account_status_active_title">فعال</string>
+    <string name="account_status_active_body">معامله آینه‌ای فعال است — هر پوزیشنی که در حساب اصلی باز شود، در حساب شما نیز متناسب با نسبت مارجین شما (%1$s%%) باز می‌شود.</string>
+
+    <!-- Positions / Trades -->
+    <string name="positions_bind_key_prompt">ابتدا کلید API خود را متصل کنید تا پوزیشن‌های باز خود را ببینید.</string>
+    <string name="positions_empty">پوزیشن باز وجود ندارد</string>
+    <string name="trades_bind_key_prompt">ابتدا کلید API خود را متصل کنید تا تاریخچه معاملات خود را ببینید.</string>
+    <string name="trades_empty">هنوز معامله بسته‌شده‌ای وجود ندارد</string>
+
+    <!-- Debt ledger -->
+    <string name="debt_ledger_current_balance">موجودی فعلی</string>
+    <string name="debt_ledger_balance_after">موجودی %1$s</string>
+
+    <!-- Alarms -->
+    <string name="alarms_new_alarm_title">هشدار جدید</string>
+    <string name="alarms_symbol_label">نماد (مثلاً BTC)</string>
+    <string name="alarms_condition_label">شرط</string>
+    <string name="alarms_price_label">قیمت</string>
+    <string name="alarms_sms_label">پیامک بفرست</string>
+    <string name="alarms_call_label">تماس بگیر</string>
+    <string name="alarms_contact_hint">از شماره تلفن پروفایل شما استفاده می‌کند</string>
+    <string name="alarms_add_button">افزودن هشدار</string>
+    <string name="alarms_empty">هنوز هشدار قیمتی وجود ندارد</string>
+    <string name="alarms_delete_cd">حذف هشدار</string>
+    <string name="alarms_error_symbol_required">نماد الزامی است</string>
+    <string name="alarms_error_price_positive">قیمت باید عددی مثبت باشد</string>
+    <string name="alarms_alert_sms">پیامک</string>
+    <string name="alarms_alert_call">تماس</string>
+
+    <!-- Profile -->
+    <string name="profile_email_label">ایمیل</string>
+    <string name="profile_first_name_label">نام</string>
+    <string name="profile_last_name_label">نام خانوادگی</string>
+    <string name="profile_phone_label">شماره تلفن</string>
+    <string name="profile_phone_hint">این شماره برای هشدارهای قیمتی پیامکی/تماسی استفاده می‌شود.</string>
+    <string name="profile_save_button">ذخیره</string>
+    <string name="profile_error_missing_fields">همه فیلدها را پر کنید</string>
+    <string name="profile_saved">پروفایل ذخیره شد</string>
+
+    <!-- Settings -->
+    <string name="settings_profit_share_title">سهم سود</string>
+    <string name="settings_profit_share_not_configured">هنوز تنظیم نشده — مدیر این مقدار را پیش از فعال‌سازی حساب شما تنظیم می‌کند.</string>
+    <string name="settings_trading_control_title">معامله آینه‌ای</string>
+    <string name="settings_trading_active">فعال — هر پوزیشنی که در حساب اصلی باز شود، در حساب شما نیز باز می‌شود.</string>
+    <string name="settings_trading_paused">معاملات متوقف شده — هر پوزیشن باز موجود همچنان به‌طور عادی بسته می‌شود.</string>
+    <string name="settings_margin_ratio_title">نسبت مارجین</string>
+    <string name="settings_margin_ratio_body">این نسبت مشخص می‌کند چه میزان از موجودی قابل‌استفاده شما در معرض ریسک معامله آینه‌ای قرار می‌گیرد: موجودی قابل‌استفاده × نسبت مارجین، پیش از اعمال اهرم حساب اصلی.</string>
+    <string name="settings_margin_ratio_label">نسبت مارجین (%)</string>
+    <string name="settings_margin_ratio_invalid">نسبت مارجین باید عددی بین ۰ تا ۱۰۰ باشد.</string>
+    <string name="settings_margin_ratio_saved">نسبت مارجین ذخیره شد</string>
+    <string name="settings_save_button">ذخیره</string>
+    <string name="settings_bind_key_title">اتصال کلید API</string>
+    <string name="settings_bind_key_body">کلید و رمز API بیتیونیکس خود را وارد کنید. این کار حساب صرافی شما را متصل می‌کند تا معاملات انجام‌شده توسط پلتفرم در حساب شما نیز آینه شود.</string>
+    <string name="settings_api_key_label">کلید API</string>
+    <string name="settings_api_secret_label">رمز API</string>
+    <string name="settings_save_api_key_button">ذخیره کلید API</string>
+    <string name="settings_bind_key_missing_fields">کلید و رمز API را وارد کنید</string>
+    <string name="settings_bind_key_saved_format">کلید API ذخیره شد. موجودی قابل‌استفاده: %1$s، دارایی: %2$s</string>
+    <string name="settings_bind_key_confirm_title">تأیید اتصال</string>
+    <string name="settings_bind_key_confirm_body">این کار حساب بیتیونیکس شما را برای معامله زنده از طریق این پلتفرم متصل می‌کند. تنها در صورتی ادامه دهید که مطمئن هستید این کلید برای همین منظور ساخته شده است.</string>
+    <string name="settings_bind_key_confirm_button">تأیید</string>
+    <string name="settings_bind_key_cancel_button">لغو</string>
+    <string name="settings_language_title">زبان</string>
+    <string name="settings_language_picker_title">انتخاب زبان</string>
+    <!-- Language names are shown in their own native script regardless of the app's current
+         language (same convention as the system's own language picker) — identical to the
+         English values.xml entries on purpose, not an untranslated miss. -->
+    <string name="settings_language_english">English</string>
+    <string name="settings_language_persian">فارسی</string>
+
+    <!-- Notifications -->
+    <string name="notifications_empty">هنوز اعلانی وجود ندارد</string>
+    <string name="notifications_toast_format">%1$s: %2$s</string>
+    <!-- %2$s here is the raw backend condition value ("above"/"below"), the same untranslated
+         API vocabulary used in the Alarms screen (see alarms_condition_label usage) — left as
+         the English sentence shape so it doesn't read as broken half-translated grammar. -->
+    <string name="alarm_triggered_toast_format">%1$s is %2$s $%3$s</string>
+
+    <!-- In-app update dialogs -->
+    <string name="update_required_title">بروزرسانی الزامی</string>
+    <string name="update_available_title">بروزرسانی موجود است</string>
+    <string name="update_required_message_format">برای ادامه استفاده از تریدبات، نسخه %1$s الزامی است.</string>
+    <string name="update_available_message_format">نسخه %1$s در دسترس است.</string>
+    <string name="update_whats_new_format">\n\nتغییرات جدید:\n%1$s</string>
+    <string name="update_button_now">بروزرسانی</string>
+    <string name="update_button_downloading">در حال دانلود…</string>
+    <string name="update_button_retry">تلاش مجدد</string>
+    <string name="update_button_skip_later">رد کردن / بعداً</string>
+
+    <!-- Notifications-poll worker -->
+    <string name="notification_channel_account">اعلان‌های حساب</string>
+    <plurals name="unread_notifications">
+        <item quantity="other">شما %d اعلان خوانده‌نشده دارید</item>
+    </plurals>
+</resources>

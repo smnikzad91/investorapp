@@ -45,7 +45,7 @@ class NotificationsPollWorker(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 CHANNEL_ID,
-                "Account notifications",
+                applicationContext.getString(R.string.notification_channel_account),
                 NotificationManager.IMPORTANCE_DEFAULT,
             )
             manager.createNotificationChannel(channel)
@@ -53,8 +53,14 @@ class NotificationsPollWorker(
 
         val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
-            .setContentTitle("tradeBot Investor")
-            .setContentText("You have $unseenCount unread notification${if (unseenCount == 1) "" else "s"}")
+            .setContentTitle(applicationContext.getString(R.string.app_name))
+            .setContentText(
+                applicationContext.resources.getQuantityString(
+                    R.plurals.unread_notifications,
+                    unseenCount,
+                    unseenCount,
+                ),
+            )
             .setNumber(unseenCount)
             .setAutoCancel(true)
             .build()

@@ -10,11 +10,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.AccountBalance
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.History
-import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.NotificationsActive
 import androidx.compose.material.icons.filled.Notifications
@@ -38,28 +38,31 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDrawerState
+import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import ir.devtrader.investor.R
 import ir.devtrader.investor.navigation.Destinations
 import kotlinx.coroutines.launch
 
-private data class DrawerNavItem(val destination: String, val label: String, val icon: ImageVector)
+private data class DrawerNavItem(val destination: String, @StringRes val label: Int, val icon: ImageVector)
 
 private val NAV_ITEMS = listOf(
-    DrawerNavItem(Destinations.DASHBOARD, "Dashboard", Icons.Filled.Dashboard),
-    DrawerNavItem(Destinations.POSITIONS, "Positions", Icons.Filled.ShowChart),
-    DrawerNavItem(Destinations.TRADES, "Trades", Icons.Filled.History),
-    DrawerNavItem(Destinations.DEBT_LEDGER, "Debt Ledger", Icons.Filled.AccountBalance),
-    DrawerNavItem(Destinations.ALARMS, "Alarms", Icons.Filled.NotificationsActive),
-    DrawerNavItem(Destinations.PROFILE, "Profile", Icons.Filled.Person),
-    DrawerNavItem(Destinations.SETTINGS, "Settings", Icons.Filled.Settings),
+    DrawerNavItem(Destinations.DASHBOARD, R.string.nav_dashboard, Icons.Filled.Dashboard),
+    DrawerNavItem(Destinations.POSITIONS, R.string.nav_positions, Icons.Filled.ShowChart),
+    DrawerNavItem(Destinations.TRADES, R.string.nav_trades, Icons.Filled.History),
+    DrawerNavItem(Destinations.DEBT_LEDGER, R.string.nav_debt_ledger, Icons.Filled.AccountBalance),
+    DrawerNavItem(Destinations.ALARMS, R.string.nav_alarms, Icons.Filled.NotificationsActive),
+    DrawerNavItem(Destinations.PROFILE, R.string.nav_profile, Icons.Filled.Person),
+    DrawerNavItem(Destinations.SETTINGS, R.string.nav_settings, Icons.Filled.Settings),
 )
 
 /**
@@ -120,7 +123,7 @@ fun AppShell(
                             )
                         }
                         Text(
-                            "tradeBot Investor",
+                            stringResource(R.string.app_name),
                             style = MaterialTheme.typography.titleMedium,
                             modifier = Modifier
                                 .weight(1f)
@@ -128,18 +131,18 @@ fun AppShell(
                         )
                         BadgedBox(badge = { if (unseenCount > 0) Badge { Text(unseenCount.toString()) } }) {
                             IconButton(onClick = { navigateTo(Destinations.NOTIFICATIONS) }) {
-                                Icon(Icons.Filled.Notifications, contentDescription = "Notifications")
+                                Icon(Icons.Filled.Notifications, contentDescription = stringResource(R.string.shell_notifications_cd))
                             }
                         }
                         IconButton(onClick = { scope.launch { drawerState.close() }; onLogout() }) {
-                            Icon(Icons.Filled.Logout, contentDescription = "Log out")
+                            Icon(Icons.AutoMirrored.Filled.Logout, contentDescription = stringResource(R.string.shell_logout_cd))
                         }
                     }
                     HorizontalDivider()
                     Column(modifier = Modifier.padding(top = 8.dp)) {
                         NAV_ITEMS.forEach { item ->
                             NavigationDrawerItem(
-                                label = { Text(item.label) },
+                                label = { Text(stringResource(item.label)) },
                                 icon = { Icon(item.icon, contentDescription = null) },
                                 selected = item.destination == currentRoute,
                                 onClick = { navigateTo(item.destination) },
@@ -158,11 +161,11 @@ fun AppShell(
                     navigationIcon = {
                         if (showBack) {
                             IconButton(onClick = { navController.popBackStack() }) {
-                                Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.shell_back_cd))
                             }
                         } else {
                             IconButton(onClick = { scope.launch { drawerState.open() } }) {
-                                Icon(Icons.Filled.Menu, contentDescription = "Open menu")
+                                Icon(Icons.Filled.Menu, contentDescription = stringResource(R.string.shell_menu_cd))
                             }
                         }
                     },

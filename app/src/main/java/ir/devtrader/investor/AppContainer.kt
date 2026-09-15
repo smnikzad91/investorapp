@@ -9,6 +9,8 @@ import ir.devtrader.investor.data.repository.AuthRepository
 import ir.devtrader.investor.data.repository.InvestorRepository
 import ir.devtrader.investor.data.repository.NotificationsCenter
 import ir.devtrader.investor.data.repository.SymbolsCache
+import ir.devtrader.investor.update.ApkDownloader
+import ir.devtrader.investor.update.UpdateCheckCache
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -36,6 +38,10 @@ class AppContainer(context: Context) {
     val realtimeGateway = RealtimeGateway(json)
     val notificationsCenter = NotificationsCenter(investorRepository, realtimeGateway, appScope)
     val symbolsCache = SymbolsCache(investorRepository)
+
+    val updateApi = NetworkModule.buildUpdateApi()
+    val apkDownloader = ApkDownloader(context.applicationContext)
+    val updateCheckCache = UpdateCheckCache()
 
     init {
         // Connect the socket and warm the notifications/symbols caches whenever a session becomes

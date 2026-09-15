@@ -1,10 +1,12 @@
 package ir.devtrader.investor.ui.login
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.lifecycle.viewmodel.initializer
+import ir.devtrader.investor.R
 import ir.devtrader.investor.data.repository.AuthRepository
 import ir.devtrader.investor.util.ApiResult
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,7 +21,7 @@ data class LoginUiState(
     val error: String? = null,
 )
 
-class LoginViewModel(private val authRepository: AuthRepository) : ViewModel() {
+class LoginViewModel(application: Application, private val authRepository: AuthRepository) : AndroidViewModel(application) {
 
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
@@ -35,7 +37,7 @@ class LoginViewModel(private val authRepository: AuthRepository) : ViewModel() {
     fun login() {
         val state = _uiState.value
         if (state.email.isBlank() || state.password.isBlank()) {
-            _uiState.value = state.copy(error = "Enter both email and password")
+            _uiState.value = state.copy(error = getApplication<Application>().getString(R.string.login_error_missing_fields))
             return
         }
         _uiState.value = state.copy(isLoading = true, error = null)
@@ -48,8 +50,8 @@ class LoginViewModel(private val authRepository: AuthRepository) : ViewModel() {
     }
 
     companion object {
-        fun factory(authRepository: AuthRepository): ViewModelProvider.Factory = viewModelFactory {
-            initializer { LoginViewModel(authRepository) }
+        fun factory(application: Application, authRepository: AuthRepository): ViewModelProvider.Factory = viewModelFactory {
+            initializer { LoginViewModel(application, authRepository) }
         }
     }
 }

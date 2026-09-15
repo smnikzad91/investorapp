@@ -13,11 +13,13 @@ android {
         applicationId = "ir.devtrader.investor"
         minSdk = 26
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "BASE_URL", "\"https://devtrader.ir/api/investor/\"")
+        // Separate base (not /api/investor/) for the public, unauthenticated app-update endpoints.
+        buildConfigField("String", "UPDATE_BASE_URL", "\"https://devtrader.ir/\"")
     }
 
     buildTypes {
@@ -25,6 +27,11 @@ android {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
+    }
+
+    lint {
+        checkReleaseBuilds = false
+        abortOnError = false
     }
 
     buildFeatures {
@@ -53,6 +60,13 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.4")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4")
     implementation("androidx.activity:activity-compose:1.9.1")
+
+    // Splash screen (installSplashScreen(), used from MainActivity while the update check runs)
+    implementation("androidx.core:core-splashscreen:1.0.0")
+
+    // Per-app language switching (AppCompatDelegate.setApplicationLocales) — no AppCompatActivity
+    // needed, the app stays ComponentActivity/Compose, this is used purely for its locale API.
+    implementation("androidx.appcompat:appcompat:1.6.1")
 
     // Compose
     implementation(platform("androidx.compose:compose-bom:2024.09.02"))

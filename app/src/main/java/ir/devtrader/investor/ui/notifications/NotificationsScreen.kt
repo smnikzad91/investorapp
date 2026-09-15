@@ -15,9 +15,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import ir.devtrader.investor.R
 import ir.devtrader.investor.data.remote.dto.NotificationItem
 import ir.devtrader.investor.data.repository.NotificationsCenter
 import ir.devtrader.investor.ui.common.FullScreenError
@@ -35,7 +37,7 @@ fun NotificationsScreen(notificationsCenter: NotificationsCenter, modifier: Modi
         uiState.error != null && uiState.notifications.isEmpty() ->
             FullScreenError(uiState.error!!, onRetry = viewModel::refresh)
         uiState.notifications.isEmpty() -> Text(
-            "No notifications yet",
+            stringResource(R.string.notifications_empty),
             modifier = modifier
                 .fillMaxSize()
                 .padding(24.dp),

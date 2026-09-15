@@ -17,9 +17,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import ir.devtrader.investor.R
 import ir.devtrader.investor.data.remote.dto.DashboardResponse
 import ir.devtrader.investor.data.repository.InvestorRepository
 import ir.devtrader.investor.ui.common.Banner
@@ -72,7 +75,7 @@ private fun DashboardContent(
 
         item {
             Text(
-                text = "Welcome back, ${dashboard.investor.first}",
+                text = stringResource(R.string.dashboard_welcome, dashboard.investor.first),
                 style = MaterialTheme.typography.titleLarge,
             )
         }
@@ -84,37 +87,37 @@ private fun DashboardContent(
         if (!dashboard.hasApiKey) {
             item {
                 SectionCard {
-                    Text("Bind your exchange API key", style = MaterialTheme.typography.titleMedium)
+                    Text(stringResource(R.string.dashboard_bind_key_title), style = MaterialTheme.typography.titleMedium)
                     Text(
-                        "Connect your Bitunix API key to see your wallet and trading activity here.",
+                        stringResource(R.string.dashboard_bind_key_body),
                         style = MaterialTheme.typography.bodyMedium,
                         modifier = Modifier.padding(top = 4.dp, bottom = 12.dp),
                     )
-                    Button(onClick = onOpenSettings) { Text("Bind API key") }
+                    Button(onClick = onOpenSettings) { Text(stringResource(R.string.dashboard_bind_key_button)) }
                 }
             }
         } else {
             item {
                 SectionCard {
-                    Text("Wallet", style = MaterialTheme.typography.titleMedium)
+                    Text(stringResource(R.string.dashboard_wallet_title), style = MaterialTheme.typography.titleMedium)
                     val assets = dashboard.assets
-                    StatRow("Available", assets?.available.formatMoney())
-                    StatRow("Margin in use", assets?.margin.formatMoney())
-                    StatRow("Cross unrealized PNL", assets?.crossUnrealizedPNL.formatMoney())
-                    StatRow("Isolated unrealized PNL", assets?.isolationUnrealizedPNL.formatMoney())
+                    StatRow(stringResource(R.string.dashboard_wallet_available), assets?.available.formatMoney())
+                    StatRow(stringResource(R.string.dashboard_wallet_margin_in_use), assets?.margin.formatMoney())
+                    StatRow(stringResource(R.string.dashboard_wallet_cross_unrealized), assets?.crossUnrealizedPNL.formatMoney())
+                    StatRow(stringResource(R.string.dashboard_wallet_isolated_unrealized), assets?.isolationUnrealizedPNL.formatMoney())
                 }
             }
             item {
                 SectionCard {
-                    Text("Positions & performance", style = MaterialTheme.typography.titleMedium)
-                    StatRow("Open positions", dashboard.openPositionsCount.toString())
-                    StatRow("Total trades", dashboard.summary.totalTrades.toString())
-                    StatRow("Sample size", dashboard.summary.sampleSize.toString())
+                    Text(stringResource(R.string.dashboard_performance_title), style = MaterialTheme.typography.titleMedium)
+                    StatRow(stringResource(R.string.dashboard_open_positions), dashboard.openPositionsCount.toString())
+                    StatRow(stringResource(R.string.dashboard_total_trades), dashboard.summary.totalTrades.toString())
+                    StatRow(stringResource(R.string.dashboard_sample_size), dashboard.summary.sampleSize.toString())
                     StatRow(
-                        "Win rate",
+                        stringResource(R.string.dashboard_win_rate),
                         dashboard.summary.winRate?.let { "%.1f%%".format(Locale.US, it * 100) } ?: "—",
                     )
-                    StatRow("Total realized PNL", dashboard.summary.totalRealizedPnl.formatMoney())
+                    StatRow(stringResource(R.string.dashboard_total_realized_pnl), dashboard.summary.totalRealizedPnl.formatMoney())
                 }
             }
         }
@@ -123,7 +126,8 @@ private fun DashboardContent(
 
 @Composable
 private fun AccountStatusBanner(dashboard: DashboardResponse) {
-    val status = computeAccountStatus(dashboard.investor, dashboard.hasApiKey)
+    val context = LocalContext.current
+    val status = computeAccountStatus(context, dashboard.investor, dashboard.hasApiKey)
     val accentColor = when (status.level) {
         AccountStatusLevel.PENDING_APPROVAL -> WarningAmber
         AccountStatusLevel.FROZEN -> LossRed

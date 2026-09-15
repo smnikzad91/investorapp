@@ -1,10 +1,12 @@
 package ir.devtrader.investor.ui.settings
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import ir.devtrader.investor.R
 import ir.devtrader.investor.data.repository.InvestorRepository
 import ir.devtrader.investor.util.ApiResult
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -42,7 +44,9 @@ data class SettingsUiState(
 )
 
 /** Four independent sections on one screen, per spec — Profit Share, Trading Control, Margin Ratio, Bind API Key. */
-class SettingsViewModel(private val investorRepository: InvestorRepository) : ViewModel() {
+class SettingsViewModel(application: Application, private val investorRepository: InvestorRepository) : AndroidViewModel(application) {
+
+    private val context get() = getApplication<Application>()
 
     private val _uiState = MutableStateFlow(SettingsUiState())
     val uiState: StateFlow<SettingsUiState> = _uiState.asStateFlow()
@@ -95,7 +99,7 @@ class SettingsViewModel(private val investorRepository: InvestorRepository) : Vi
         val ratio = state.marginRatioInput.toDoubleOrNull()
         if (ratio == null || ratio <= 0 || ratio > 100) {
             _uiState.value = state.copy(
-                marginRatioResultMessage = "Margin ratio must be a number between 0 and 100.",
+                marginRatioResultMessage = context.getString(R.string.settings_margin_ratio_invalid),
                 isMarginRatioResultError = true,
             )
             return
@@ -105,7 +109,7 @@ class SettingsViewModel(private val investorRepository: InvestorRepository) : Vi
             when (val result = investorRepository.updateMarginRatio(ratio)) {
                 is ApiResult.Success -> _uiState.value = _uiState.value.copy(
                     isSavingMarginRatio = false,
-                    marginRatioResultMessage = "Margin ratio saved",
+                    marginRatioResultMessage = context.getString(R.string.settings_margin_ratio_saved),
                     isMarginRatioResultError = false,
                 )
                 is ApiResult.Error -> _uiState.value = _uiState.value.copy(
@@ -128,7 +132,7 @@ class SettingsViewModel(private val investorRepository: InvestorRepository) : Vi
     fun requestBindKeyConfirmation() {
         if (_uiState.value.key.isBlank() || _uiState.value.secret.isBlank()) {
             _uiState.value = _uiState.value.copy(
-                bindKeyResultMessage = "Enter both the API key and secret",
+                bindKeyResultMessage = context.getString(R.string.settings_bind_key_missing_fields),
                 isBindKeyResultError = true,
             )
             return
@@ -149,7 +153,11 @@ class SettingsViewModel(private val investorRepository: InvestorRepository) : Vi
                     val body = result.data
                     _uiState.value = _uiState.value.copy(
                         isSubmittingKey = false,
-                        bindKeyResultMessage = "API key saved. Available: ${body.available ?: "-"}, equity: ${body.equity ?: "-"}",
+                        bindKeyResultMessage = context.getString(
+                            R.string.settings_bind_key_saved_format,
+                            body.available ?: "-",
+                            body.equity ?: "-",
+                        ),
                         isBindKeyResultError = false,
                         bindKeyWarning = body.tradePermissionWarning,
                         key = "",
@@ -166,8 +174,8 @@ class SettingsViewModel(private val investorRepository: InvestorRepository) : Vi
     }
 
     companion object {
-        fun factory(investorRepository: InvestorRepository): ViewModelProvider.Factory = viewModelFactory {
-            initializer { SettingsViewModel(investorRepository) }
+        fun factory(application: Application, investorRepository: InvestorRepository): ViewModelProvider.Factory = viewModelFactory {
+            initializer { SettingsViewModel(application, investorRepository) }
         }
     }
 }

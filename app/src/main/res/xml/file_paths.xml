@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Exposes app-external-files-dir/Download/ (where ApkDownloader saves the downloaded APK)
+    through this app's FileProvider, so the package installer (a different app/process) can
+    read the file via a content:// URI without needing broad storage permissions.
+-->
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <external-files-path name="update_downloads" path="Download/" />
+</paths>

@@ -35,6 +35,21 @@ object NetworkModule {
 
         return retrofit.create(ApiService::class.java)
     }
+
+    /** No auth interceptor: check-update is public and called before any session may exist. */
+    fun buildUpdateApi(): UpdateApi {
+        val client = OkHttpClient.Builder()
+            .addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC })
+            .build()
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BuildConfig.UPDATE_BASE_URL)
+            .client(client)
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+            .build()
+
+        return retrofit.create(UpdateApi::class.java)
+    }
 }
 
 /** Attaches `Authorization: Bearer <token>` to every request except login, which has none yet. */

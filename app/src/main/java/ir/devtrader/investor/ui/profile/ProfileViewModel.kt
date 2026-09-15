@@ -1,10 +1,12 @@
 package ir.devtrader.investor.ui.profile
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import ir.devtrader.investor.R
 import ir.devtrader.investor.data.repository.InvestorRepository
 import ir.devtrader.investor.util.ApiResult
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,7 +27,7 @@ data class ProfileUiState(
 )
 
 /** Pre-filled from GET /dashboard's investor object, per spec — there's no dedicated GET /profile. */
-class ProfileViewModel(private val investorRepository: InvestorRepository) : ViewModel() {
+class ProfileViewModel(application: Application, private val investorRepository: InvestorRepository) : AndroidViewModel(application) {
 
     private val _uiState = MutableStateFlow(ProfileUiState())
     val uiState: StateFlow<ProfileUiState> = _uiState.asStateFlow()
@@ -69,7 +71,10 @@ class ProfileViewModel(private val investorRepository: InvestorRepository) : Vie
     fun save() {
         val state = _uiState.value
         if (state.first.isBlank() || state.last.isBlank() || state.phone.isBlank()) {
-            _uiState.value = state.copy(resultMessage = "Fill in all fields", isResultError = true)
+            _uiState.value = state.copy(
+                resultMessage = getApplication<Application>().getString(R.string.profile_error_missing_fields),
+                isResultError = true,
+            )
             return
         }
         _uiState.value = state.copy(isSaving = true, resultMessage = null)
@@ -77,7 +82,7 @@ class ProfileViewModel(private val investorRepository: InvestorRepository) : Vie
             when (val result = investorRepository.updateProfile(state.first.trim(), state.last.trim(), state.phone.trim())) {
                 is ApiResult.Success -> _uiState.value = _uiState.value.copy(
                     isSaving = false,
-                    resultMessage = "Profile saved",
+                    resultMessage = getApplication<Application>().getString(R.string.profile_saved),
                     isResultError = false,
                 )
                 is ApiResult.Error -> _uiState.value = _uiState.value.copy(
@@ -90,8 +95,8 @@ class ProfileViewModel(private val investorRepository: InvestorRepository) : Vie
     }
 
     companion object {
-        fun factory(investorRepository: InvestorRepository): ViewModelProvider.Factory = viewModelFactory {
-            initializer { ProfileViewModel(investorRepository) }
+        fun factory(application: Application, investorRepository: InvestorRepository): ViewModelProvider.Factory = viewModelFactory {
+            initializer { ProfileViewModel(application, investorRepository) }
         }
     }
 }
