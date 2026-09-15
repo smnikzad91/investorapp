@@ -22,7 +22,8 @@ private fun updateMessage(info: CheckUpdateResponse, mandatory: Boolean): String
 }
 
 @Composable
-private fun confirmLabel(downloading: Boolean, failed: Boolean): String = when {
+private fun confirmLabel(downloading: Boolean, failed: Boolean, readyToInstall: Boolean): String = when {
+    readyToInstall -> stringResource(R.string.update_button_install)
     downloading -> stringResource(R.string.update_button_downloading)
     failed -> stringResource(R.string.update_button_retry)
     else -> stringResource(R.string.update_button_now)
@@ -38,7 +39,7 @@ fun MandatoryUpdateDialog(state: UpdateUiState.Immediate, onUpdateNow: () -> Uni
         text = { Text(updateMessage(state.info, mandatory = true)) },
         confirmButton = {
             TextButton(onClick = onUpdateNow, enabled = !state.downloading) {
-                Text(confirmLabel(state.downloading, state.failed))
+                Text(confirmLabel(state.downloading, state.failed, state.downloadedApkFile != null))
             }
         },
     )
@@ -53,7 +54,7 @@ fun OptionalUpdateDialog(state: UpdateUiState.Flexible, onUpdateNow: () -> Unit,
         text = { Text(updateMessage(state.info, mandatory = false)) },
         confirmButton = {
             TextButton(onClick = onUpdateNow, enabled = !state.downloading) {
-                Text(confirmLabel(state.downloading, state.failed))
+                Text(confirmLabel(state.downloading, state.failed, state.downloadedApkFile != null))
             }
         },
         dismissButton = {

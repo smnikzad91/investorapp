@@ -9,10 +9,10 @@ import androidx.core.os.LocaleListCompat
  * choice across restarts on its own and, on Android 13+, shows up in the system's own
  * Settings -> Apps -> App language screen for free.
  *
- * MainActivity is a plain ComponentActivity, not AppCompatActivity, so the "no recreate() call
- * needed" guarantee that ships with appcompat 1.6.0+ doesn't apply here (that auto-recreate
- * hooks into AppCompatActivity's own lifecycle) — callers must recreate the activity themselves
- * after calling [setLanguage].
+ * MainActivity extends AppCompatActivity specifically so this works on API < 33 — the automatic
+ * locale-application (and appcompat 1.6.0+'s own recreate()-on-locale-change) both hook into
+ * AppCompatActivity's attachBaseContext()/lifecycle; a plain ComponentActivity never picks up the
+ * new locale there. Settings' language picker still calls recreate() itself too, as a fallback.
  */
 object LanguageManager {
     const val ENGLISH = "en"

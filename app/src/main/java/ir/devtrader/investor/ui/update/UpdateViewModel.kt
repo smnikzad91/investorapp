@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.io.File
 
 sealed interface UpdateUiState {
     /** Initial state: the check is still in flight. MainActivity keeps the splash up for this. */
@@ -23,10 +24,26 @@ sealed interface UpdateUiState {
     /** Resolved: nothing to show — either no update was available, or a flexible one was dismissed. */
     data object NoUpdate : UpdateUiState
 
-    data class Flexible(val info: CheckUpdateResponse, val downloading: Boolean = false, val failed: Boolean = false) :
-        UpdateUiState
-    data class Immediate(val info: CheckUpdateResponse, val downloading: Boolean = false, val failed: Boolean = false) :
-        UpdateUiState
+    /**
+     * downloadedApkFile is non-null once the download finishes — the dialog then shows an
+     * "Install" button instead of auto-launching the installer itself. Auto-launching from the
+     * download-complete callback is unreliable (Android 10+ silently blocks activity starts from
+     * a background context); a direct tap on this button is always a genuine foreground user
+     * gesture, so launching from there is reliable instead. See onUpdateNowClicked.
+     */
+    data class Flexible(
+        val info: CheckUpdateResponse,
+        val downloading: Boolean = false,
+        val failed: Boolean = false,
+        val downloadedApkFile: File? = null,
+    ) : UpdateUiState
+
+    data class Immediate(
+        val info: CheckUpdateResponse,
+        val downloading: Boolean = false,
+        val failed: Boolean = false,
+        val downloadedApkFile: File? = null,
+    ) : UpdateUiState
 }
 
 /**
@@ -89,32 +106,52 @@ class UpdateViewModel(
     }
 
     fun onUpdateNowClicked() {
-        val info = when (val state = _uiState.value) {
+        val state = _uiState.value
+        val info = when (state) {
             is UpdateUiState.Flexible -> state.info
             is UpdateUiState.Immediate -> state.info
             UpdateUiState.Checking, UpdateUiState.NoUpdate -> return
         }
-        val downloadUrl = info.downloadUrl ?: return
+        val alreadyDownloaded = when (state) {
+            is UpdateUiState.Flexible -> state.downloadedApkFile
+            is UpdateUiState.Immediate -> state.downloadedApkFile
+            else -> null
+        }
+        if (alreadyDownloaded != null) {
+            // This tap is a direct, in-the-moment user gesture on a visible screen — unlike the
+            // download-complete callback below, the app is unambiguously foreground right now, so
+            // the installer launch here is reliable.
+            apkDownloader.launchInstaller(alreadyDownloaded)
+            return
+        }
 
+        val downloadUrl = info.downloadUrl ?: return
         setDialogState(info, downloading = true, failed = false)
         apkDownloader.download(
             downloadUrl = downloadUrl,
             versionName = info.latestVersionName ?: "latest",
             onComplete = { apkFile ->
-                apkDownloader.promptInstall(apkFile)
-                // The dialog is left up (behind the installer): if the user backs out without
-                // completing the install, they land back on it rather than into the app.
-                setDialogState(info, downloading = false, failed = false)
+                // Only a notification here, not a launch attempt — this callback can fire while
+                // the app is backgrounded (that's the whole point of DownloadManager), and
+                // Android silently blocks activity starts from a background context. The dialog
+                // switches to an "Install" button instead; see onUpdateNowClicked above.
+                apkDownloader.notifyDownloadReady(apkFile)
+                setDialogState(info, downloading = false, failed = false, downloadedApkFile = apkFile)
             },
             onFailed = { setDialogState(info, downloading = false, failed = true) },
         )
     }
 
-    private fun setDialogState(info: CheckUpdateResponse, downloading: Boolean, failed: Boolean) {
+    private fun setDialogState(
+        info: CheckUpdateResponse,
+        downloading: Boolean,
+        failed: Boolean,
+        downloadedApkFile: File? = null,
+    ) {
         _uiState.value = if (info.isMandatory) {
-            UpdateUiState.Immediate(info, downloading, failed)
+            UpdateUiState.Immediate(info, downloading, failed, downloadedApkFile)
         } else {
-            UpdateUiState.Flexible(info, downloading, failed)
+            UpdateUiState.Flexible(info, downloading, failed, downloadedApkFile)
         }
     }
 

@@ -15,6 +15,7 @@ import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.AccountBalance
 import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.History
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.NotificationsActive
 import androidx.compose.material.icons.filled.Notifications
@@ -63,6 +64,7 @@ private val NAV_ITEMS = listOf(
     DrawerNavItem(Destinations.ALARMS, R.string.nav_alarms, Icons.Filled.NotificationsActive),
     DrawerNavItem(Destinations.PROFILE, R.string.nav_profile, Icons.Filled.Person),
     DrawerNavItem(Destinations.SETTINGS, R.string.nav_settings, Icons.Filled.Settings),
+    DrawerNavItem(Destinations.ABOUT, R.string.nav_about, Icons.Filled.Info),
 )
 
 /**

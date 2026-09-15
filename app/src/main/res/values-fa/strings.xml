@@ -15,6 +15,7 @@
     <string name="nav_alarms_title">هشدارهای قیمت</string>
     <string name="nav_profile">پروفایل</string>
     <string name="nav_settings">تنظیمات</string>
+    <string name="nav_about">درباره ما</string>
     <string name="nav_notifications_title">اعلان‌ها</string>
     <string name="shell_notifications_cd">اعلان‌ها</string>
     <string name="shell_logout_cd">خروج</string>
@@ -159,12 +160,24 @@
     <string name="update_whats_new_format">\n\nتغییرات جدید:\n%1$s</string>
     <string name="update_button_now">بروزرسانی</string>
     <string name="update_button_downloading">در حال دانلود…</string>
+    <string name="update_button_install">نصب</string>
     <string name="update_button_retry">تلاش مجدد</string>
     <string name="update_button_skip_later">رد کردن / بعداً</string>
+    <string name="update_notification_channel">بروزرسانی برنامه</string>
+    <string name="update_notification_title">بروزرسانی دانلود شد</string>
+    <string name="update_notification_text">برای نصب ضربه بزنید</string>
 
     <!-- Notifications-poll worker -->
     <string name="notification_channel_account">اعلان‌های حساب</string>
     <plurals name="unread_notifications">
         <item quantity="other">شما %d اعلان خوانده‌نشده دارید</item>
     </plurals>
+
+    <!-- About Us — placeholder/template content, meant to be replaced later. -->
+    <string name="about_version_format">نسخه %1$s</string>
+    <string name="about_description">تریدبات اینوستور یک پلتفرم معامله آینه‌ای است که استراتژی‌های معاملاتی حرفه‌ای را به‌طور خودکار برای حساب شما تکرار می‌کند. این متن نمونه است — آن را با متن خودتان جایگزین کنید.</string>
+    <string name="about_contact_title">ارتباط با ما</string>
+    <string name="about_contact_email">support@devtrader.ir</string>
+    <string name="about_contact_website">https://devtrader.ir</string>
+    <string name="about_copyright_format">© %1$d تریدبات اینوستور. تمامی حقوق محفوظ است.</string>
 </resources>

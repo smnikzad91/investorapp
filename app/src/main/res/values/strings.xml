@@ -15,6 +15,7 @@
     <string name="nav_alarms_title">Price Alarms</string>
     <string name="nav_profile">Profile</string>
     <string name="nav_settings">Settings</string>
+    <string name="nav_about">About Us</string>
     <string name="nav_notifications_title">Notifications</string>
     <string name="shell_notifications_cd">Notifications</string>
     <string name="shell_logout_cd">Log out</string>
@@ -153,8 +154,12 @@
     <string name="update_whats_new_format">\n\nWhat\'s new:\n%1$s</string>
     <string name="update_button_now">Update Now</string>
     <string name="update_button_downloading">Downloading…</string>
+    <string name="update_button_install">Install</string>
     <string name="update_button_retry">Retry</string>
     <string name="update_button_skip_later">Skip / Later</string>
+    <string name="update_notification_channel">App update</string>
+    <string name="update_notification_title">Update downloaded</string>
+    <string name="update_notification_text">Tap to install</string>
 
     <!-- Notifications-poll worker -->
     <string name="notification_channel_account">Account notifications</string>
@@ -162,4 +167,12 @@
         <item quantity="one">You have %d unread notification</item>
         <item quantity="other">You have %d unread notifications</item>
     </plurals>
+
+    <!-- About Us — placeholder/template content, meant to be replaced later. -->
+    <string name="about_version_format">Version %1$s</string>
+    <string name="about_description">tradeBot Investor is a mirror-trading platform that automatically mirrors professional trading strategies for your account. This description is placeholder text — replace it with your own.</string>
+    <string name="about_contact_title">Contact</string>
+    <string name="about_contact_email">support@devtrader.ir</string>
+    <string name="about_contact_website">https://devtrader.ir</string>
+    <string name="about_copyright_format">© %1$d tradeBot Investor. All rights reserved.</string>
 </resources>

@@ -11,4 +11,5 @@ object Destinations {
     const val PROFILE = "profile"
     const val SETTINGS = "settings"
     const val NOTIFICATIONS = "notifications"
+    const val ABOUT = "about"
 }

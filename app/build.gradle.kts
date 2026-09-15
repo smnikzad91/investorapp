@@ -13,8 +13,8 @@ android {
         applicationId = "ir.devtrader.investor"
         minSdk = 26
         targetSdk = 34
-        versionCode = 2
-        versionName = "1.1"
+        versionCode = 12
+        versionName = "1.11"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "BASE_URL", "\"https://devtrader.ir/api/investor/\"")
@@ -66,7 +66,7 @@ dependencies {
 
     // Per-app language switching (AppCompatDelegate.setApplicationLocales) — no AppCompatActivity
     // needed, the app stays ComponentActivity/Compose, this is used purely for its locale API.
-    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.appcompat:appcompat:1.7.0")
 
     // Compose
     implementation(platform("androidx.compose:compose-bom:2024.09.02"))

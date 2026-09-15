@@ -229,9 +229,10 @@ private fun BindKeySection(uiState: SettingsUiState, viewModel: SettingsViewMode
 }
 
 /**
- * MainActivity is a plain ComponentActivity, not AppCompatActivity, so appcompat 1.6.0+'s
- * automatic-recreate-on-locale-change only applies to AppCompatActivity subclasses — this
- * screen calls recreate() itself after LanguageManager.setLanguage() rather than relying on it.
+ * MainActivity is AppCompatActivity (required for per-app language on API < 33, see
+ * MainActivity's own doc comment), so appcompat 1.6.0+'s automatic recreate-on-locale-change
+ * should already fire on its own — this still calls recreate() explicitly too as a cheap,
+ * harmless fallback in case that hook doesn't fire on some OS version/state.
  */
 @Composable
 private fun LanguageSection() {

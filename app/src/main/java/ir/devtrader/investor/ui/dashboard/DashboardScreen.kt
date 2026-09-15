@@ -27,7 +27,6 @@ import ir.devtrader.investor.data.remote.dto.DashboardResponse
 import ir.devtrader.investor.data.repository.InvestorRepository
 import ir.devtrader.investor.ui.common.Banner
 import ir.devtrader.investor.ui.common.FullScreenError
-import ir.devtrader.investor.ui.common.FullScreenLoading
 import ir.devtrader.investor.ui.common.SectionCard
 import ir.devtrader.investor.ui.theme.LossRed
 import ir.devtrader.investor.ui.theme.WarningAmber
@@ -45,7 +44,12 @@ fun DashboardScreen(
     val uiState by viewModel.uiState.collectAsState()
 
     when {
-        uiState.isLoading && uiState.dashboard == null -> FullScreenLoading()
+        // Dashboard is the very first screen shown after login — there's no separate splash
+        // gating it (see UpdateGate), so this skeleton IS the loading experience for that first
+        // GET /dashboard call, shaped like the real layout rather than a generic spinner. Only
+        // this initial load hits this branch; later reloads/pull-to-refresh don't, since
+        // dashboard is non-null by then.
+        uiState.isLoading && uiState.dashboard == null -> DashboardSkeleton(modifier)
         uiState.error != null && uiState.dashboard == null ->
             FullScreenError(uiState.error!!, onRetry = viewModel::refresh)
         uiState.dashboard != null -> DashboardContent(

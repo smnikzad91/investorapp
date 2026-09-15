@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.TradeBotInvestor" parent="android:Theme.Material.Light.NoActionBar" />
+    <!-- Must descend from Theme.AppCompat (not a plain android: theme) — MainActivity extends
+         AppCompatActivity (required for per-app language on API < 33, see MainActivity's
+         doc comment); AppCompatActivity throws at runtime on a non-AppCompat theme. Compose's
+         own MaterialTheme (ui/theme/Theme.kt) governs the actual visual design regardless. -->
+    <style name="Theme.TradeBotInvestor" parent="Theme.AppCompat.DayNight.NoActionBar" />
 
     <!-- androidx.core:core-splashscreen theme. windowSplashScreenBackground reuses the same
          dark tone as the adaptive launcher icon's background so the splash reads as the same

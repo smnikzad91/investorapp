@@ -16,6 +16,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import ir.devtrader.investor.AppContainer
 import ir.devtrader.investor.R
+import ir.devtrader.investor.ui.about.AboutScreen
 import ir.devtrader.investor.ui.alarms.AlarmsScreen
 import ir.devtrader.investor.ui.dashboard.DashboardScreen
 import ir.devtrader.investor.ui.debtledger.DebtLedgerScreen
@@ -32,6 +33,11 @@ import kotlinx.coroutines.launch
 @Composable
 fun TradeBotNavGraph(appContainer: AppContainer) {
     val navController = rememberNavController()
+    // Deliberately NOT derived from the `isLoggedIn` below on every recomposition — NavHost's
+    // startDestination is only meant to be read once, when the graph is first built. Recomputing
+    // it live could transiently render Login before the LaunchedEffect below corrects it to
+    // Dashboard.
+    val startDestination = remember { if (appContainer.sessionManager.isLoggedIn.value) Destinations.DASHBOARD else Destinations.LOGIN }
     val isLoggedIn by appContainer.sessionManager.isLoggedIn.collectAsState()
     val investor by appContainer.sessionManager.currentInvestor.collectAsState()
     val unseenCount by appContainer.notificationsCenter.unseenCount.collectAsState()
@@ -86,7 +92,7 @@ fun TradeBotNavGraph(appContainer: AppContainer) {
 
     NavHost(
         navController = navController,
-        startDestination = if (isLoggedIn) Destinations.DASHBOARD else Destinations.LOGIN,
+        startDestination = startDestination,
     ) {
         composable(Destinations.LOGIN) {
             LoginScreen(
@@ -153,6 +159,11 @@ fun TradeBotNavGraph(appContainer: AppContainer) {
         composable(Destinations.NOTIFICATIONS) {
             shell(stringResource(R.string.nav_notifications_title), Destinations.NOTIFICATIONS, showBack = true) { padding ->
                 NotificationsScreen(appContainer.notificationsCenter, Modifier.padding(padding))
+            }
+        }
+        composable(Destinations.ABOUT) {
+            shell(stringResource(R.string.nav_about), Destinations.ABOUT) { padding ->
+                AboutScreen(Modifier.padding(padding))
             }
         }
     }
